@@ -15,8 +15,8 @@ from utils import obtain_sql, retrieval_related_table, execute_sql
 from prompt import query_template, chatbot_prompt
 
 
-tokenizer = AutoTokenizer.from_pretrained("./ChatGlm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("./ChatGlm-6b", trust_remote_code=True).half().cuda()
+tokenizer = AutoTokenizer.from_pretrained("./chatglm-6b", trust_remote_code=True)
+model = AutoModel.from_pretrained("./chatglm-6b", trust_remote_code=True).half().cuda()
 model = model.eval()
 
 
