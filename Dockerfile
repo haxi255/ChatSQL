@@ -8,7 +8,7 @@ COPY ./requirements.txt /tmp/requirements.txt
 RUN pip install -r requirements.txt --index-url https://mirrors.ustc.edu.cn/pypi/web/simple
 
 WORKDIR /app
-COPY docker /app
+COPY . /app
 
 # 新建文件夹
 RUN mkdir DB
