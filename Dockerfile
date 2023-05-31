@@ -14,4 +14,4 @@ COPY . /app
 RUN mkdir /app/DB
 RUN mkdir /app/logs
 
-CMD ["python3", "local_database.py"]
+RUN python3 local_database.py
