@@ -4,7 +4,7 @@ services:
   
   main_gui:
     build:
-      context: .
+      context: docker
       dockerfile: Dockerfile
     image: chatsql:latest
     ports:
@@ -15,7 +15,7 @@ services:
 
   main_gui_moss:
     build:
-      context: .
+      context: docker
       dockerfile: Dockerfile
     image: chatsql:latest
     ports:
