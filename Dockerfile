@@ -10,7 +10,8 @@ RUN pip install -r /tmp/requirements.txt --index-url https://mirrors.ustc.edu.cn
 WORKDIR /app
 COPY . /app
 
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+RUN apt-get install curl
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
 RUN apt-get install git-lfs
 RUN git lfs install
 RUN git clone https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
