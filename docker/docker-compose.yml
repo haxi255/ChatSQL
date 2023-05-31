@@ -1,0 +1,105 @@
+version: "3.9"
+
+services:
+  
+  fastchat-controller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fastchat:latest
+    ports:
+      - "31001:31001"
+    entrypoint: [
+      "python3", "-m", "fastchat.serve.controller",
+      "--host", "0.0.0.0",
+      "--port", "31001"
+    ]
+    
+  fastchat-model-worker-vicuna-13b:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /data:/data
+    environment:
+      FASTCHAT_CONTROLLER_URL: http://fastchat-controller:31001
+    image: fastchat:latest
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4
+              capabilities: ["gpu"]
+    entrypoint: [
+        "python3", "-m", "fastchat.serve.model_worker",
+        "--model-path", "/data/vicuna-13b",
+        "--worker-address", "http://fastchat-model-worker-vicuna-13b:31002",
+        "--controller-address", "http://fastchat-controller:31001",
+        "--host", "0.0.0.0",
+        "--port", "31002",
+        "--gpus", "3"
+    ]
+
+# python3 -m fastchat.serve.model_worker \
+  #	--model-path /data/chatglm-6b \
+  #	--controller-address http://192.168.10.20:21001 \
+  #	--port 21003 \
+  #	--worker-address http://localhost:21003 \
+  #	--gpus 2
+
+  fastchat-model-worker-chatglm-6b:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /data:/data
+    environment:
+      FASTCHAT_CONTROLLER_URL: http://fastchat-controller:31001
+    image: fastchat:latest
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4
+              capabilities: ["gpu"]
+    entrypoint: [
+        "python3", "-m", "fastchat.serve.model_worker",
+        "--model-path", "/data/chatglm-6b",
+        "--worker-address", "http://fastchat-model-worker-chatglm-6b:31003",
+        "--controller-address", "http://fastchat-controller:31001",
+        "--host", "0.0.0.0",
+        "--port", "31003",
+        "--gpus", "0"
+    ]
+
+#  fastchat-api-server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    environment:
+#      FASTCHAT_CONTROLLER_URL: http://fastchat-controller:31001
+#    image: fastchat:latest
+#    ports:
+#      - "8000:8000"
+#    entrypoint: ["python3", "-m", "fastchat.serve.openai_api_server", "--host", "0.0.0.0", "--port", "8000"]
+
+  fastchat-gradio-web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      FASTCHAT_CONTROLLER_URL: http://fastchat-controller:31001
+    image: fastchat:latest
+    ports:
+      - "7860:32001"
+    entrypoint: [
+      "python3", "-m", "fastchat.serve.gradio_web_server",
+      "--host", "0.0.0.0",
+      "--port", "32001",
+      "--controller-url", "http://fastchat-controller:31001"
+    ]
+
+#volumes:
+#  huggingface:
