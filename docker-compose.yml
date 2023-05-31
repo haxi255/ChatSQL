@@ -6,6 +6,15 @@ services:
     build:
       dockerfile: Dockerfile
     image: chatsql:latest
+    volumes:
+      - /data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4
+              capabilities: [ "gpu" ]
     ports:
       - "5677:8000"
     entrypoint: [
@@ -16,6 +25,15 @@ services:
     build:
       dockerfile: Dockerfile
     image: chatsql:latest
+    volumes:
+      - /data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4
+              capabilities: [ "gpu" ]
     ports:
       - "5678:8000"
     entrypoint: [
