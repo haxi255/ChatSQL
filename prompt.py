@@ -6,7 +6,8 @@ from sentence_transformers import SentenceTransformer, util
 from utility.utils import config_dict as DB_CONFIG
 from local_database import db_operate
 
-embedder = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+# embedder = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+embedder = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 
 # 每张表的表含义和对应的表结构
 # table_schema = {"货物销售表,主要存储货物名称、净收益率、损失率、环比增长率、销售量、货物品类、货物仓库、销售负责人名字、销售部门、销售负责人联系方式":
