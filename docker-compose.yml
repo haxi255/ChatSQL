@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: chatsql:latest
     volumes:
-      - /data:/data
+      - /data/chatglm-6b:/app/chatglm-6b
     deploy:
       resources:
         reservations:
@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile
     image: chatsql:latest
     volumes:
-      - /data:/data
+      - /data/chatglm-6b:/app/chatglm-6b
     deploy:
       resources:
         reservations:
